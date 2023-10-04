@@ -15,12 +15,16 @@ function JobsPage() {
   const [currJobs, setCurrJobs] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  /** Makes call to API to get list of all jobs, or some jobs based on search*/
+  //TODO: don't set default to undefined OR api func
   async function searchJobs(data = undefined) {
     const searchResults = await JoblyApi.getJobs(data);
+    //TODO: don't need cb pattern for setstate here
     setCurrJobs(j => searchResults);
     setIsLoading(l => false);
   }
 
+  /**Renders list of all jobs after initial page load */
   useEffect(function getInitialCompanies() {
     searchJobs();
   }, []);

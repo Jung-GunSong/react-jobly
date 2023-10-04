@@ -53,6 +53,8 @@ class JoblyApi {
     return res.company;
   }
 
+  /** Get all companies or list of companies based on search. */
+
   static async getCompanies(searchTerm = "") {
     if (!searchTerm) {
       const emptyTermRes = await this.request(`companies/`);
@@ -62,16 +64,17 @@ class JoblyApi {
     return res.companies;
   }
 
+  /** Get all jobs or list of jobs based on search. */
+
   static async getJobs(searchTerm = undefined) {
-    if(!searchTerm){
+    if (!searchTerm) {
       const emptyTermRes = await this.request(`jobs/`);
-      return emptyTermRes.companies;
+      return emptyTermRes.jobs;
     }
     const res = await this.request(`jobs/`, { title: searchTerm });
-    return res.companies;
+    return res.jobs;
   }
 
-  // obviously, you'll add a lot here ...
 }
 
 export default JoblyApi;

@@ -14,15 +14,17 @@ import { useEffect } from "react";
  */
 
 function CompaniesPage() {
-  const [currCompanies, setCurrCompanies] = useState("");
+  const [currCompanies, setCurrCompanies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  //TODO: error state, could include all state in object
 
+  /** gets list of all companies from API or select companies based on search */
   async function searchCompanies(data = "") {
     const searchResults = await JoblyApi.getCompanies(data);
     setCurrCompanies(c => searchResults);
-    setIsLoading(l => false);
+    setIsLoading(false);
   }
-
+  /** renders list of companies after initial page load */
   useEffect(function getInitialCompanies() {
     searchCompanies();
   }, []);

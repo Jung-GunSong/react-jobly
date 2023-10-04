@@ -18,6 +18,7 @@ function CompanyJobPage() {
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
 
+  /** Gets list of jobs from API call based on search, or selected company */
   useEffect(function getCompanyData() {
     async function fetchCompanyData() {
       const company = await JoblyApi.getCompany(params.handle);
@@ -34,7 +35,7 @@ function CompanyJobPage() {
         <div>
           <h1>{companyData.name}</h1>
           <p>{companyData.description}</p>
-          {companyData.jobs.map( job => <JobPanel key={job.id} job={job} />)}
+          {companyData.jobs.map(job => <JobPanel key={job.id} job={job} />)}
         </div>
         : <p>Loading!</p>}
     </>);
