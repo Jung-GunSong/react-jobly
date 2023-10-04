@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 /** API Class.
@@ -18,22 +16,32 @@ class JoblyApi {
     "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
-  static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
+  static async request(endpoint, data = {}, method = "GET") {
+    const url = new URL(`${BASE_URL}/${endpoint}`);
+    const headers = {
+      authorization: `Bearer ${JoblyApi.token}`,
+      'content-type': 'application/json',
+    };
 
-    const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${JoblyApi.token}` };
-    const params = (method === "get")
-        ? data
-        : {};
+    url.search = (method === "GET")
+      ? new URLSearchParams(data).toString()
+      : "";
 
-    try {
-      return (await axios({ url, method, data, params, headers })).data;
-    } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+    // set to undefined since the body property cannot exist on a GET method
+    const body = (method !== "GET")
+      ? JSON.stringify(data)
+      : undefined;
+
+    const resp = await fetch(url, { method, body, headers });
+
+    //fetch API does not throw an error, have to dig into the resp for msgs
+    if (!resp.ok) {
+      console.error("API Error:", resp.statusText, resp.status);
+      const { error } = await resp.json();
+      throw Array.isArray(error) ? error : [error];
     }
+
+    return await resp.json();
   }
 
   // Individual API routes
@@ -41,8 +49,18 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
+    const res = await this.request(`companies/${handle}`);
     return res.company;
+  }
+
+  static async getCompanies(searchTerm = ""){
+    const res = await this.request(`companies/`, {nameLike: searchTerm})
+    return res.companies;
+  }
+
+  static async getJobs(searchTerm = undefined){
+    const res = await this.request(`jobs/`, {title: searchTerm})
+    return res.companies;
   }
 
   // obviously, you'll add a lot here ...
