@@ -1,27 +1,32 @@
 import { useState } from "react";
+const initalFormData = "";
+function SearchBar({ searchFunc }) {
 
-function SearchBar({searchCompanies}) {
+  const [formData, setFormData] = useState(initalFormData);
 
-  const [formData, setFormData] = useState("");
-
-  function handleChange(){
-
+  function handleChange(evt) {
+    const { value } = evt.target;
+    setFormData(f => value);
   }
 
-  function handleClick(){
-
+  function handleClick(evt) {
+    evt.preventDefault();
+    searchFunc(formData);
+    setFormData(initalFormData);
   }
- return(
 
-  <div>
-    <form onSubmit={handleClick}>
-      <input onChange={handleChange}>
-      </input>
-      <button>Submit</button>
-    </form>
-  </div>
+  return (
+    <div>
+      <form onSubmit={handleClick}>
+        <input onChange={handleChange}
+          name="search"
+          value={formData}>
+        </input>
+        <button>Submit</button>
+      </form>
+    </div>
 
- )
+  );
 }
 
 export default SearchBar;
