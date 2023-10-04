@@ -1,5 +1,5 @@
 import { useState } from "react";
-const initalFormData = "";
+
 
 /**
  * SearchBar:
@@ -15,21 +15,20 @@ const initalFormData = "";
  */
 function SearchBar({ searchFunc }) {
 
-  //TODO: change formData to searchData or searchTerm
-  const [formData, setFormData] = useState(initalFormData);
+  const [searchTerm, setSearchTerm] = useState("");
 
   /** handles change in user input of search bar form */
   function handleChange(evt) {
     const { value } = evt.target;
-    setFormData(f => value);
+    setSearchTerm(value);
   }
   /** handles submit of user input in search bar form, sends data to Job or
    * Companies components
    */
   function handleClick(evt) {
     evt.preventDefault();
-    searchFunc(formData);
-    setFormData(initalFormData);
+    searchFunc(searchTerm);
+    setSearchTerm("");
   }
 
   return (
@@ -37,7 +36,7 @@ function SearchBar({ searchFunc }) {
       <form onSubmit={handleClick}>
         <input onChange={handleChange}
           name="search"
-          value={formData}>
+          value={searchTerm}>
         </input>
         <button>Submit</button>
       </form>

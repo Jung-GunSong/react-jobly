@@ -12,16 +12,14 @@ import { useEffect } from "react";
  *
  */
 function JobsPage() {
-  const [currJobs, setCurrJobs] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [currJobs, setCurrJobs] = useState({jobs: [], isLoading: true});
 
   /** Makes call to API to get list of all jobs, or some jobs based on search*/
-  //TODO: don't set default to undefined OR api func
-  async function searchJobs(data = undefined) {
+
+  async function searchJobs(data) {
     const searchResults = await JoblyApi.getJobs(data);
-    //TODO: don't need cb pattern for setstate here
-    setCurrJobs(j => searchResults);
-    setIsLoading(l => false);
+
+    setCurrJobs(({jobs: searchResults, isLoading: false}));
   }
 
   /**Renders list of all jobs after initial page load */
@@ -33,8 +31,8 @@ function JobsPage() {
     <>
       <h1>Jobs Page!</h1>
       <SearchBar searchFunc={searchJobs} />
-      {!isLoading
-        ? currJobs.map(job =>
+      {!currJobs.isLoading
+        ? currJobs.jobs.map(job =>
           <JobPanel key={job.id} job={job} />)
         : <p>Loading!</p>}
     </>);

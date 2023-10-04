@@ -55,7 +55,7 @@ class JoblyApi {
 
   /** Get all companies or list of companies based on search. */
 
-  static async getCompanies(searchTerm = "") {
+  static async getCompanies(searchTerm) {
     if (!searchTerm) {
       const emptyTermRes = await this.request(`companies/`);
       return emptyTermRes.companies;
@@ -66,7 +66,7 @@ class JoblyApi {
 
   /** Get all jobs or list of jobs based on search. */
 
-  static async getJobs(searchTerm = undefined) {
+  static async getJobs(searchTerm) {
     if (!searchTerm) {
       const emptyTermRes = await this.request(`jobs/`);
       return emptyTermRes.jobs;

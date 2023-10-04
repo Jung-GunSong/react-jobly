@@ -14,15 +14,14 @@ import { useEffect } from "react";
  */
 
 function CompaniesPage() {
-  const [currCompanies, setCurrCompanies] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  //TODO: error state, could include all state in object
+  const [currCompanies, setCurrCompanies] = useState({companies:[], isLoading: true});
+
 
   /** gets list of all companies from API or select companies based on search */
   async function searchCompanies(data = "") {
     const searchResults = await JoblyApi.getCompanies(data);
-    setCurrCompanies(c => searchResults);
-    setIsLoading(false);
+    setCurrCompanies({companies: searchResults, isLoading: false});
+
   }
   /** renders list of companies after initial page load */
   useEffect(function getInitialCompanies() {
@@ -33,8 +32,8 @@ function CompaniesPage() {
     <>
       <h1>Companies Page!</h1>
       <SearchBar searchFunc={searchCompanies} />
-      {!isLoading
-        ? currCompanies.map(company =>
+      {!currCompanies.isLoading
+        ? currCompanies.companies.map(company =>
           <CompanyPanel key={company.handle} company={company} />)
         : <p>Loading!</p>}
     </>);
