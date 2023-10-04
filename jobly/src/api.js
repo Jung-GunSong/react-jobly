@@ -63,6 +63,10 @@ class JoblyApi {
   }
 
   static async getJobs(searchTerm = undefined) {
+    if(!searchTerm){
+      const emptyTermRes = await this.request(`jobs/`);
+      return emptyTermRes.companies;
+    }
     const res = await this.request(`jobs/`, { title: searchTerm });
     return res.companies;
   }

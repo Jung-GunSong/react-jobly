@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
+import "./CompanyPanel.css"
 
 function CompanyPanel({ company }) {
   return (
-    <div>
+
       <Link to={`/companies/${company.handle}`}>
-        <p>{company.name}</p>
-        <p>{company.description}</p>
-        <p>{company.numEmployees}</p>
-        <img alt="company logo" src={company.logoUrl} />
+        <div className="company-panel">
+          <p>{company.name}</p>
+          <p>{company.description}</p>
+          <p>{company.numEmployees}</p>
+          { company.logoUrl && <img alt="company logo" src={company.logoUrl} />}
+        </div>
       </Link>
-    </div>);
+    );
 }
 
 export default CompanyPanel;
