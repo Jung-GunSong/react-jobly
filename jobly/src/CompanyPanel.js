@@ -7,7 +7,7 @@ function CompanyPanel({ company }) {
         <p>{company.name}</p>
         <p>{company.description}</p>
         <p>{company.numEmployees}</p>
-        <img src={company.logoUrl} />
+        <img alt="company logo" src={company.logoUrl} />
       </Link>
     </div>);
 }
