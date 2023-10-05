@@ -21,14 +21,17 @@ function JoblyApp() {
 
 
   useEffect(function () {
-    const { username } = jwtDecode(JoblyApi.token);
-    console.log(username);
-    async function getUser() {
-      const userData = await JoblyApi.getUser(username);
-      console.log(userData);
-      setUser(userData);
+    if (JoblyApi.token) {
+      const { username } = jwtDecode(token);
+      console.log(username);
+      async function getUser() {
+        const userData = await JoblyApi.getUser(username);
+        console.log(userData);
+        setUser(userData);
+      }
+      getUser();
     }
-    getUser();
+
 
   }, [token]);
 
@@ -40,25 +43,30 @@ function JoblyApp() {
     setToken(token);
   }
 
-  function resetUser() {
-    setUser({});
+  function logOutUser() {
     setToken("");
+    setUser({});
+    JoblyApi.token = "";
   }
 
-  function registerUser(loginInfo) {
-
-
+  async function registerUser(registerInfo) {
+    const { username, password, firstName, lastName, email } = registerInfo;
+    const token = await JoblyApi.register(
+      username, password,
+      firstName, lastName, email
+    );
+    JoblyApi.token = token;
+    setToken(token);
   }
 
   return (
     <div>
       <BrowserRouter>
         <userContext.Provider value={user.username}>
-          <NavBar user={user} />
+          <NavBar user={user} logOutUser={logOutUser} />
           <RouteList loginUser={loginUser} registerUser={registerUser} />
         </userContext.Provider>
       </BrowserRouter>
-      <button onClick={resetUser}>reset user (temp)</button>
     </div>
   );
 };

@@ -6,7 +6,11 @@ import "./NavBar.css";
  * NavBar: renders links to routes for each page
  *
  */
-function NavBar({ user }) {
+function NavBar({ user, logOutUser}) {
+
+  function handleClick(){
+    logOutUser();
+  }
 
   return (
     <div className="NavBar">
@@ -20,7 +24,7 @@ function NavBar({ user }) {
           <NavLink to="/jobs" >Jobs</NavLink>
           <NavLink to="/companies"  >Companies</NavLink>
           <NavLink to="/profile" >Profile</NavLink>
-          <NavLink to="/logout" >Log out {user.username}</NavLink>
+          <NavLink onClick={handleClick} to="/logout" >Log out {user.username}</NavLink>
         </>
       }
     </div>

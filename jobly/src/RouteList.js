@@ -24,7 +24,7 @@ function RouteList({ registerUser, loginUser }) {
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/companies/:handle" element={<CompanyJobPage />} />
-        <Route path="*" element={<Navigate to="/companies" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
