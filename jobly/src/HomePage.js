@@ -9,7 +9,7 @@ import { useContext } from "react";
  */
 function HomePage() {
 
-  const username = useContext(userContext);
+  const {username} = useContext(userContext);
 
   return (
     <div>

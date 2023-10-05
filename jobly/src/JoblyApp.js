@@ -37,7 +37,12 @@ function JoblyApp() {
    * login form, logs in user*/
   async function loginUser(loginInfo) {
     const { username, password } = loginInfo;
-    const token = await JoblyApi.login(username, password);
+    try{
+      const token = await JoblyApi.login(username, password);
+
+    }catch(err){
+      setUser({error: err[0].message});
+    }
 
     JoblyApi.token = token;
     setToken(token);
@@ -55,10 +60,17 @@ function JoblyApp() {
   */
   async function registerUser(registerInfo) {
     const { username, password, firstName, lastName, email } = registerInfo;
-    const token = await JoblyApi.register(
-      username, password,
-      firstName, lastName, email
-    );
+    try{
+
+      const token = await JoblyApi.register(
+        username, password,
+        firstName, lastName, email
+      );
+
+    }catch(err){
+      setUser({errors:err[0].message});
+    }
+
     JoblyApi.token = token;
     setToken(token);
   }
@@ -66,7 +78,7 @@ function JoblyApp() {
   return (
     <div>
       <BrowserRouter>
-        <userContext.Provider value={user.username}>
+        <userContext.Provider value={{username: user.username, errors: user.errors }}>
           <NavBar user={user} logOutUser={logOutUser} />
           <RouteList loginUser={loginUser} registerUser={registerUser} />
         </userContext.Provider>
