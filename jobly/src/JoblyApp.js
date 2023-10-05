@@ -1,9 +1,10 @@
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./NavBar";
 import RouteList from "./RouteList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import userContext from "./userContext";
-
+import JoblyApi from "./api";
+// import {decode, jwt} from "jsonwebtoken"
 
 /**
  * JoblyApp: Renders NavBar component and Routes
@@ -13,13 +14,19 @@ import userContext from "./userContext";
  */
 function JoblyApp() {
   const [user, setUser] = useState({});
-  const [token, setToken] = useState({});
+  const [token, setToken] = useState("");
 
+  useEffect( function(){
+    JoblyApi.token = token;
+    console.log(`our new jobly api token is`, JoblyApi.token)
+    // const username = jwt.decode(token).username;
+    // console.log(username);
+  },[token])
 
-
-  function loginUser(loginInfo) {
-
-
+  async function loginUser(loginInfo) {
+    const {username, password} = loginInfo;
+    const token = await JoblyApi.login(username,password);
+    setToken(token)
   }
 
   function registerUser(loginInfo) {
