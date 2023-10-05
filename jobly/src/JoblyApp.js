@@ -18,13 +18,18 @@ function JoblyApp() {
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
 
-  const { decodedToken } = useJwt(token);
-  useEffect(function () {
-    JoblyApi.token = token;
-    console.log(`our new jobly api token is`, JoblyApi.token);
 
-    console.log("decoded token", decodedToken);
-    // const username = jwtDecode(token);
+
+  useEffect(function () {
+
+    function updateUser(){
+      const {decodedToken} = useJwt(token);
+      setUser(decodedToken);
+    }
+      // console.log(`our new jobly api token is`, JoblyApi.token);
+
+      // console.log("decoded token", decodedToken);
+      updateUser();
     // console.log(username);
   }, [token]);
 
@@ -32,7 +37,9 @@ function JoblyApp() {
     const { username, password } = loginInfo;
     const token = await JoblyApi.login(username, password);
     console.log("token after login", token);
+    JoblyApi.token = token;
     setToken(token);
+
   }
 
   function registerUser(loginInfo) {
