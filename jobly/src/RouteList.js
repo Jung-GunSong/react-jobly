@@ -5,12 +5,12 @@ import CompaniesPage from "./CompaniesPage";
 import CompanyJobPage from "./CompanyJobPage";
 import Login from "./Login";
 import SignUp from "./SignUp";
-
+import UserProfile from "./UserProfile";
 /**
  * Manages routes to each associated component/page
  *
  */
-function RouteList() {
+function RouteList({ registerUser, loginUser }) {
 
 
 
@@ -18,12 +18,13 @@ function RouteList() {
     <div>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login loginUser={loginUser}/>} />
-        <Route path="/signUp" element={<SignUp registerUser={registerUser}/>} />
+        <Route path="/login" element={<Login loginUser={loginUser} />} />
+        <Route path="/signup" element={<SignUp registerUser={registerUser} />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/companies/:handle" element={<CompanyJobPage />} />
-        <Route path="*" element={<Navigate to="/companies"/>}/>
+        <Route path="*" element={<Navigate to="/companies" />} />
       </Routes>
     </div>
   );
