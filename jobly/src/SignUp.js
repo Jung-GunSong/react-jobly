@@ -1,27 +1,41 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const initialSignUpData ={username:"", password:"",
-                          firstName: "", lastName:"",
-                          email:""}
-
-function SignUp({registerUser}){
+const initialSignUpData = {
+  username: "", password: "",
+  firstName: "", lastName: "",
+  email: ""
+};
+/**
+ * SignUp: Renders form for user to input usernam/password
+ *
+ * State:
+ * - signUpData: {username:..., ...}
+ *
+ * Prop:
+ * -registerUser: function that sends user registration information to JoblyApp
+ *
+ */
+function SignUp({ registerUser }) {
   const [signUpData, setSignUpData] = useState(initialSignUpData);
   const navigate = useNavigate();
 
+  /** Updates signUpData state when user types in form */
   function handleChange(evt) {
     const { name, value } = evt.target;
     setSignUpData(s => ({ ...s, [name]: value }));
   }
 
+  /** Sends user registration information to JoblyApp on submit, resets form,
+   * redirects user to home page
+   */
   function handleSubmit(evt) {
     evt.preventDefault();
-    registerUser(signUpData)
+    registerUser(signUpData);
     setSignUpData(initialSignUpData);
     navigate("/");
-    // return <Navigate to="/" replace={true} />;
   }
-  // return <Navigate to="/" replace={true} />;
+
   return (
     <div className="SignUp-container">
       <h1>Sign Up</h1>

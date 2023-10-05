@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import userContext from "./userContext";
 import JoblyApi from "./api";
 import jwtDecode from "jwt-decode";
-// import { useJwt } from "react-jwt";
-// import {decode, jwt} from "jsonwebtoken"
 
 /**
  * JoblyApp: Renders NavBar component and Routes
@@ -18,37 +16,43 @@ function JoblyApp() {
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
 
-
-
+  /**Decodes jwt token, gets user information every time token is updated, and
+   * sets user state
+   */
   useEffect(function () {
     if (JoblyApi.token) {
       const { username } = jwtDecode(token);
-      console.log(username);
+
       async function getUser() {
         const userData = await JoblyApi.getUser(username);
-        console.log(userData);
         setUser(userData);
       }
       getUser();
     }
 
-
   }, [token]);
 
+
+  /** Gets token from backend, sets token for user based on user info from
+   * login form, logs in user*/
   async function loginUser(loginInfo) {
     const { username, password } = loginInfo;
     const token = await JoblyApi.login(username, password);
-    console.log("token after login", token);
+
     JoblyApi.token = token;
     setToken(token);
   }
 
+  /** Resets token and user info, logs out user */
   function logOutUser() {
     setToken("");
     setUser({});
     JoblyApi.token = "";
   }
 
+  /** Gets new user info from register form, gets token for user from backend,
+   * sets token state
+  */
   async function registerUser(registerInfo) {
     const { username, password, firstName, lastName, email } = registerInfo;
     const token = await JoblyApi.register(

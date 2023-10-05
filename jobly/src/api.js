@@ -77,10 +77,14 @@ class JoblyApi {
     return res.jobs;
   }
 
+  /** Send POST request with user login information, returns token */
+
   static async login(username, password) {
     const res = await this.request(`auth/token`, { username, password }, 'POST');
     return res.token;
   }
+
+  /** Sends POST request with new user information, returns token */
 
   static async register(username, password, firstName, lastName, email) {
     const res = await this.request(`auth/register`, {
@@ -91,6 +95,7 @@ class JoblyApi {
     return res.token;
   }
 
+  /** Gets complete user information based on username in route */
   static async getUser(username) {
     const res = await this.request(`users/${username}`);
     return res.user;

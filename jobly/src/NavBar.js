@@ -6,9 +6,10 @@ import "./NavBar.css";
  * NavBar: renders links to routes for each page
  *
  */
-function NavBar({ user, logOutUser}) {
+function NavBar({ user, logOutUser }) {
 
-  function handleClick(){
+  /** Calls logOutUser function to reset user info and token on click */
+  function handleClick() {
     logOutUser();
   }
 
