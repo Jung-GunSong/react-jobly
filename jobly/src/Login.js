@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const initialLoginFormData = { username: "", password: "" };
 
-function Login() {
+function Login({loginUser}) {
   const [loginData, setLoginData] = useState(initialLoginFormData);
   const navigate = useNavigate();
 
@@ -15,10 +15,9 @@ function Login() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    // loginUser(loginData);
-    // setLoginData(initialLoginFormData);
-    navigate("/companies");
-    // return <Navigate to="/companies" />;
+    loginUser(loginData);
+    setLoginData(initialLoginFormData);
+    navigate("/");
   }
 
   return (

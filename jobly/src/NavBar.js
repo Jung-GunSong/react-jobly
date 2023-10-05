@@ -13,6 +13,8 @@ function NavBar() {
       <NavLink to="/" >Jobly</NavLink>
       <NavLink to="/jobs" >Jobs</NavLink>
       <NavLink to="/companies"  >Companies</NavLink>
+      <NavLink to="/login"  >Login</NavLink>
+      <NavLink to="/signUp"  >SignUp</NavLink>
     </div>
   );
 }

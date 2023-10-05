@@ -14,7 +14,7 @@ function JoblyApp() {
     <div>
       <BrowserRouter>
         <NavBar />
-        <RouteList />
+        <RouteList loginUser={loginUser} registerUser={registerUser} />
       </BrowserRouter>
     </div>
   );
