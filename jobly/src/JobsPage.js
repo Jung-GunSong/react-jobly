@@ -3,6 +3,7 @@ import JobPanel from "./JobPanel";
 import { useState } from "react";
 import JoblyApi from "./api";
 import { useEffect } from "react";
+import Loading from "./Loading";
 /**
  * Renders page of Job components
  *
@@ -12,14 +13,14 @@ import { useEffect } from "react";
  *
  */
 function JobsPage() {
-  const [currJobs, setCurrJobs] = useState({jobs: [], isLoading: true});
+  const [currJobs, setCurrJobs] = useState({ jobs: [], isLoading: true });
 
   /** Makes call to API to get list of all jobs, or some jobs based on search*/
 
   async function searchJobs(data) {
     const searchResults = await JoblyApi.getJobs(data);
 
-    setCurrJobs(({jobs: searchResults, isLoading: false}));
+    setCurrJobs(({ jobs: searchResults, isLoading: false }));
   }
 
   /**Renders list of all jobs after initial page load */
@@ -34,7 +35,7 @@ function JobsPage() {
       {!currJobs.isLoading
         ? currJobs.jobs.map(job =>
           <JobPanel key={job.id} job={job} />)
-        : <p>Loading!</p>}
+        : <Loading />}
     </>);
 }
 

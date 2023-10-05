@@ -4,6 +4,7 @@ import JoblyApi from "./api";
 import { useEffect } from "react";
 import { useState } from "react";
 import JobPanel from "./JobPanel";
+import Loading from "./Loading";
 
 /**
  * CompaniesJobsPage: Shows details about a company, lists all jobs
@@ -37,7 +38,7 @@ function CompanyJobPage() {
           <p>{companyData.description}</p>
           {companyData.jobs.map(job => <JobPanel key={job.id} job={job} />)}
         </div>
-        : <p>Loading!</p>}
+        : <Loading />}
     </>);
 }
 

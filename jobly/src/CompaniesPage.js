@@ -3,6 +3,7 @@ import CompanyPanel from "./CompanyPanel";
 import { useState } from "react";
 import JoblyApi from "./api";
 import { useEffect } from "react";
+import Loading from "./Loading";
 
 /**
  * CompaniesPage: Renders list of all companies
@@ -14,13 +15,13 @@ import { useEffect } from "react";
  */
 
 function CompaniesPage() {
-  const [currCompanies, setCurrCompanies] = useState({companies:[], isLoading: true});
+  const [currCompanies, setCurrCompanies] = useState({ companies: [], isLoading: true });
 
 
   /** gets list of all companies from API or select companies based on search */
   async function searchCompanies(data = "") {
     const searchResults = await JoblyApi.getCompanies(data);
-    setCurrCompanies({companies: searchResults, isLoading: false});
+    setCurrCompanies({ companies: searchResults, isLoading: false });
 
   }
   /** renders list of companies after initial page load */
@@ -35,8 +36,8 @@ function CompaniesPage() {
       {!currCompanies.isLoading
         ? currCompanies.companies.map(company =>
           <CompanyPanel key={company.handle} company={company} />)
-        : <p>Loading!</p>}
+        : <Loading />}
     </>);
 }
 
-export default CompaniesPage;
+export default CompaniesPage;;
