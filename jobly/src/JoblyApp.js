@@ -4,6 +4,8 @@ import RouteList from "./RouteList";
 import { useEffect, useState } from "react";
 import userContext from "./userContext";
 import JoblyApi from "./api";
+import jwtDecode from "jwt-decode";
+import { useJwt } from "react-jwt";
 // import {decode, jwt} from "jsonwebtoken"
 
 /**
@@ -16,17 +18,21 @@ function JoblyApp() {
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
 
-  useEffect( function(){
+  const { decodedToken } = useJwt(token);
+  useEffect(function () {
     JoblyApi.token = token;
-    console.log(`our new jobly api token is`, JoblyApi.token)
-    // const username = jwt.decode(token).username;
+    console.log(`our new jobly api token is`, JoblyApi.token);
+
+    console.log("decoded token", decodedToken);
+    // const username = jwtDecode(token);
     // console.log(username);
-  },[token])
+  }, [token]);
 
   async function loginUser(loginInfo) {
-    const {username, password} = loginInfo;
-    const token = await JoblyApi.login(username,password);
-    setToken(token)
+    const { username, password } = loginInfo;
+    const token = await JoblyApi.login(username, password);
+    console.log("token after login", token);
+    setToken(token);
   }
 
   function registerUser(loginInfo) {
@@ -44,6 +50,6 @@ function JoblyApp() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default JoblyApp;

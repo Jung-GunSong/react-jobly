@@ -23,7 +23,7 @@ router.post("/token", async function (req, res, next) {
   const validator = jsonschema.validate(
     req.body,
     userAuthSchema,
-    {required: true}
+    { required: true }
   );
   if (!validator.valid) {
     const errs = validator.errors.map(e => e.stack);
@@ -32,7 +32,9 @@ router.post("/token", async function (req, res, next) {
 
   const { username, password } = req.body;
   const user = await User.authenticate(username, password);
+  console.log("user", user);
   const token = createToken(user);
+  console.log("token from backend", token);
   return res.json({ token });
 });
 
@@ -50,7 +52,7 @@ router.post("/register", async function (req, res, next) {
   const validator = jsonschema.validate(
     req.body,
     userRegisterSchema,
-    {required: true}
+    { required: true }
   );
   if (!validator.valid) {
     const errs = validator.errors.map(e => e.stack);
