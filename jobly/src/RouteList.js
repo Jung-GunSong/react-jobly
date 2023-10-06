@@ -14,8 +14,9 @@ import UserProfile from "./UserProfile";
  * Props:
  * registerUser: function to register user with form data
  * loginUser: function to login user with valid username and password
+ * isLoggedIn: boolean value to determine if user is loggedn in or not
  */
-function RouteList({ registerUser, loginUser }) {
+function RouteList({ registerUser, loginUser, isLoggedIn }) {
 
 
 
