@@ -9,23 +9,23 @@ import { useContext } from "react";
  */
 function HomePage() {
 
-  const {username} = useContext(userContext);
+  const { username } = useContext(userContext);
 
   return (
-    <div>
+    <div className="HomePage-container mt-5">
       <h1>Jobly</h1>
       {!username ?
-        <>
+        <div className="mt-5" >
           <Link to="/login">
-            <button>Login</button>
+            <button className="btn btn-primary me-5">Login</button>
           </Link>
           <Link to="/signup">
-            <button>Sign Up</button>
+            <button className="btn btn-primary ml-5">Sign Up</button>
           </Link>
-        </> :
+        </div> :
         <h1>Welcome back {username}!</h1>}
     </div>
   );
 }
 
-export default HomePage;
+export default HomePage;;

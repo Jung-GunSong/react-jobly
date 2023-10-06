@@ -36,13 +36,13 @@ function SignUp({ registerUser }) {
   async function handleSubmit(evt) {
     evt.preventDefault();
 
-    try{
+    try {
 
       await registerUser(signUpData);
       setSignUpData(initialSignUpData);
       navigate("/");
 
-    }catch(err){
+    } catch (err) {
       setErrors(err[0].message);
     }
 
@@ -82,7 +82,7 @@ function SignUp({ registerUser }) {
           value={signUpData.email}
           onChange={handleChange}
         />
-        <button>Submit</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
       {errors && <ErrorMessage errorMessages={errors} />}
     </div>

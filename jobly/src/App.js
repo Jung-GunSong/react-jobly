@@ -1,5 +1,6 @@
 
 import './App.css';
+import 'bootswatch/dist/minty/bootstrap.min.css';
 import JoblyApp from './JoblyApp';
 
 function App() {

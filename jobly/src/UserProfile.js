@@ -60,9 +60,9 @@ function UserProfile({ user, patchUser }) {
   }
 
   return (
-    <div className="SignUp-container">
-      <h1>Sign Up</h1>
-      <form className="SignUp" onSubmit={handleSubmit}>
+    <div className="UserProfile-container">
+      <h1>Edit Profile</h1>
+      <form className="UserProfile" onSubmit={handleSubmit}>
         username:
         <input
           name="username"
@@ -87,7 +87,7 @@ function UserProfile({ user, patchUser }) {
           value={profileData.email}
           onChange={handleChange}
         />
-        <button>Submit</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
       {success && <p>Information successfully updated!</p>}
       {errors && <ErrorMessage errorMessages={errors} />}

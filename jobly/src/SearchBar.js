@@ -38,7 +38,7 @@ function SearchBar({ searchFunc }) {
           name="search"
           value={searchTerm}>
         </input>
-        <button>Submit</button>
+        <button className="btn btn-primary" >Submit</button>
       </form>
     </div>
 

@@ -20,7 +20,7 @@ function NavBar({ user, logOutUser }) {
   }
 
   return (
-    <div className="NavBar">
+    <div className="NavBar navbar">
       <NavLink to="/" >Jobly</NavLink>
       {!user ?
         <>

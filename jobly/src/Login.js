@@ -59,7 +59,7 @@ function Login({ loginUser }) {
           value={loginData.password}
           onChange={handleChange}
         />
-        <button>Submit</button>
+        <button className="btn btn-primary">Submit</button>
       </form>
       {errors && <ErrorMessage errorMessages={errors} />}
     </div>
