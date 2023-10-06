@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import RouteList from "./RouteList";
 import { useEffect, useState } from "react";
@@ -15,6 +15,8 @@ import jwtDecode from "jwt-decode";
 function JoblyApp() {
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
+
+  // const navigate = useNavigate();
 
   /**Decodes jwt token, gets user information every time token is updated, and
    * sets user state
@@ -39,15 +41,17 @@ function JoblyApp() {
     const { username, password } = loginInfo;
     try {
       const token = await JoblyApi.login(username, password);
+      JoblyApi.token = token;
+      setToken(token);
 
     } catch (err) {
       console.log(err);
       setUser({ errors: err[0].message });
-      console.log("checkpoint 1");
+      // console.log("checkpoint 1");
     }
 
-    JoblyApi.token = token;
-    setToken(token);
+    // navigate("/");
+
   }
 
   /** Resets token and user info, logs out user */
@@ -68,13 +72,14 @@ function JoblyApp() {
         username, password,
         firstName, lastName, email
       );
+      JoblyApi.token = token;
+      setToken(token);
 
     } catch (err) {
       setUser({ errors: err[0].message });
     }
 
-    JoblyApi.token = token;
-    setToken(token);
+
   }
 
   return (

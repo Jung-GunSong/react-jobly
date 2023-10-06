@@ -1,5 +1,5 @@
 
-import { useState, React, useContext } from "react";
+import { useState, React, useContext, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import ErrorMessage from "./ErrorMessage";
 import userContext from "./userContext";
@@ -17,8 +17,10 @@ const initialLoginFormData = { username: "", password: "" };
  */
 function Login({ loginUser }) {
   const [loginData, setLoginData] = useState(initialLoginFormData);
-  const navigate = useNavigate();
   const { errors } = useContext(userContext);
+
+  const navigate = useNavigate();
+
 
   /** Updates loginData state as user types in form */
   function handleChange(evt) {
@@ -29,14 +31,20 @@ function Login({ loginUser }) {
   /** Sends user login info to JoblyApp, resets form, redirects to home page */
   async function handleSubmit(evt) {
     evt.preventDefault();
-    await loginUser(loginData);
+    // TODO: put try catch here
+    loginUser(loginData);
     setLoginData(initialLoginFormData);
     console.log("errors on handleSubmit for login", errors);
-    if (!errors) {
-      navigate("/");
-    }
-    console.log("checkpoint 2");
+    // if (!errors) {
+    //   navigate("/");
+    // }
+    // console.log("checkpoint 2");
   }
+
+  // issue: cannot create user.errors, before navigate needs to happen
+  // login happens, then error collected in JoblyApp
+  // in JoblyApp, if errors, collected, then redirect to login page
+  // else, redirect to login
 
   return (
     <div className="Login-container">
@@ -56,7 +64,7 @@ function Login({ loginUser }) {
         />
         <button>Submit</button>
       </form>
-      {/* {errors.length > 0 && <ErrorMessage errorMessages={errors} />} */}
+      {errors && <ErrorMessage errorMessages={errors} />}
     </div>
   );
 }
