@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import userContext from "./userContext";
 import JoblyApi from "./api";
 import jwtDecode from "jwt-decode";
+import Loading from "./Loading";
 
 /**
  * JoblyApp: Renders NavBar component and Routes
@@ -62,6 +63,7 @@ function JoblyApp() {
   function logOutUser() {
     setToken("");
     setUser({});
+    setIsLoggedIn(false);
     JoblyApi.token = "";
     localStorage.clear();
   }

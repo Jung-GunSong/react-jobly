@@ -26,10 +26,10 @@ function RouteList({ registerUser, loginUser, isLoggedIn }) {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login loginUser={loginUser} />} />
         <Route path="/signup" element={<SignUp registerUser={registerUser} />} />
-        <Route path="/profile" element={<UserProfile />} />
+        {isLoggedIn && <><Route path="/profile" element={<UserProfile />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
-        <Route path="/companies/:handle" element={<CompanyJobPage />} />
+        <Route path="/companies/:handle" element={<CompanyJobPage />} /> </>}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
