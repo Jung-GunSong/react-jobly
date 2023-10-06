@@ -22,8 +22,8 @@ import Loading from "./Loading";
  */
 function JoblyApp() {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [isLoading, isLoading] = useState(true);
 
 
 
@@ -31,11 +31,11 @@ function JoblyApp() {
    * sets user state
    */
   useEffect(function () {
-    let storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      const { username } = jwtDecode(storedToken);
 
-      JoblyApi.token = storedToken;
+    if (token) {
+      const { username } = jwtDecode(token);
+
+      JoblyApi.token = token;
 
       async function getUser() {
         const userData = await JoblyApi.getUser(username);
@@ -61,8 +61,7 @@ function JoblyApp() {
 
   /** Resets token and user info, logs out user */
   function logOutUser() {
-    setToken("");
-    setUser({});
+    setUser(null);
     setIsLoggedIn(false);
     JoblyApi.token = "";
     localStorage.clear();
@@ -83,6 +82,21 @@ function JoblyApp() {
     );
     JoblyApi.token = token;
     setToken(token);
+
+    // upon initial render, no local storage, token, or user, isloading is true
+    // set useEffect to check if token is truthy
+    // at start token is falsy
+    // else block: set user to {username:null,} isLoading to false
+    // setUser causes rerender, and since isLoading is now false, joblyapp
+    // loads rest of the app
+    // either prop drill user into routeList or useContext on it
+    // use logic inside routelist to determine which routes are available
+
+    // login or register
+    // use login func to set local token to a token from backend
+    // causes re render and token state is by default the one in local storage
+    // useEffect runs, token is truthy,
+    // callback executes, which sets a user to something
 
   }
 

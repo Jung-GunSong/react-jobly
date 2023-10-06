@@ -36,4 +36,9 @@ function RouteList({ registerUser, loginUser, isLoggedIn }) {
   );
 }
 
+// if user is falsy w/&& unlocks log in and sign
+// home route has no conditions
+// if user is truthy w/&& jobs, companies, companies/handle
+//
+
 export default RouteList;
