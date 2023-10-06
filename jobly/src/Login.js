@@ -1,6 +1,8 @@
 
-import { useState, React } from "react";
+import { useState, React, useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import ErrorMessage from "./ErrorMessage";
+import userContext from "./userContext";
 
 const initialLoginFormData = { username: "", password: "" };
 
@@ -16,6 +18,7 @@ const initialLoginFormData = { username: "", password: "" };
 function Login({ loginUser }) {
   const [loginData, setLoginData] = useState(initialLoginFormData);
   const navigate = useNavigate();
+  const { errors } = useContext(userContext);
 
   /** Updates loginData state as user types in form */
   function handleChange(evt) {
@@ -24,11 +27,15 @@ function Login({ loginUser }) {
   }
 
   /** Sends user login info to JoblyApp, resets form, redirects to home page */
-  function handleSubmit(evt) {
+  async function handleSubmit(evt) {
     evt.preventDefault();
-    loginUser(loginData);
+    await loginUser(loginData);
     setLoginData(initialLoginFormData);
-    navigate("/");
+    console.log("errors on handleSubmit for login", errors);
+    if (!errors) {
+      navigate("/");
+    }
+    console.log("checkpoint 2");
   }
 
   return (
@@ -49,6 +56,7 @@ function Login({ loginUser }) {
         />
         <button>Submit</button>
       </form>
+      {/* {errors.length > 0 && <ErrorMessage errorMessages={errors} />} */}
     </div>
   );
 }
