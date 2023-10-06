@@ -94,6 +94,18 @@ function JoblyApp() {
     localStorage.setItem("token", token);
   }
 
+  // takes in user info and updates user information in database,
+  // then returns user info back
+  async function patchUser (patchInfo) {
+    const { username, firstName, lastName, email } = patchInfo;
+
+    const patchedUserData = await JoblyApi.patch(username, firstName,
+      lastName,
+      email);
+
+      setUser(patchedUserData);
+  }
+
   if (isLoading === true) return <Loading />;
 
   return (
@@ -105,6 +117,7 @@ function JoblyApp() {
             loginUser={loginUser}
             registerUser={registerUser}
             user={user}
+            patchUser={patchUser}
           />
         </userContext.Provider>
       </BrowserRouter>

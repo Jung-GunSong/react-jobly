@@ -16,8 +16,9 @@ import UserProfile from "./UserProfile";
  * registerUser: function to register user with form data
  * loginUser: function to login user with valid username and password
  * user: holds user data or null value for username key
+ * patchUser: function that will update user info
  */
-function RouteList({ registerUser, loginUser, user }) {
+function RouteList({ registerUser, loginUser, user, patchUser }) {
 
   return (
     <div>
@@ -34,7 +35,7 @@ function RouteList({ registerUser, loginUser, user }) {
 
         {user &&
           <>
-            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/profile" element={<UserProfile user={user} patchUser={patchUser} />} />
             <Route path="/jobs" element={<JobsPage />} />
             <Route path="/companies" element={<CompaniesPage />} />
             <Route path="/companies/:handle" element={<CompanyJobPage />} />

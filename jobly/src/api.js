@@ -95,6 +95,17 @@ class JoblyApi {
     return res.token;
   }
 
+  static async patch(username, firstName, lastName, email) {
+    const res = await this.request(`users/${username}`,
+      {
+        firstName,
+        lastName,
+        email
+      }, `PATCH`);
+
+      return res.user
+  }
+
   /** Gets complete user information based on username in route */
   static async getUser(username) {
     const res = await this.request(`users/${username}`);
