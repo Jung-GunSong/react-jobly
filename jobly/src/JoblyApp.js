@@ -1,4 +1,4 @@
-import { BrowserRouter, useNavigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import NavBar from "./NavBar";
 import RouteList from "./RouteList";
 import { useEffect, useState } from "react";
@@ -9,22 +9,27 @@ import jwtDecode from "jwt-decode";
 /**
  * JoblyApp: Renders NavBar component and Routes
  *
- * JoblyApp => {NavBar, RouteList}
+ * State:
+ * -user: contains data about the user including personal data and applications completed
+ * ex: {useranme:...}
+ * -token: jwt token used for authentication
+ * ex:"fhwuioehfuw..."
+ *
+ * JoblyApp => {NavBar, RouteList} => Page => Panel
  *
  */
 function JoblyApp() {
-  const [user, setUser] = useState({});
-  const [token, setToken] = useState("");
-
-  // const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   /**Decodes jwt token, gets user information every time token is updated, and
    * sets user state
    */
   useEffect(function () {
-    if (JoblyApi.token) {
-      const { username } = jwtDecode(token);
 
+    if (token) {
+      const { username } = jwtDecode(token);
+      JoblyApi.token = token;
       async function getUser() {
         const userData = await JoblyApi.getUser(username);
         setUser(userData);
@@ -39,18 +44,9 @@ function JoblyApp() {
    * login form, logs in user*/
   async function loginUser(loginInfo) {
     const { username, password } = loginInfo;
-    try {
+
       const token = await JoblyApi.login(username, password);
-      JoblyApi.token = token;
       setToken(token);
-
-    } catch (err) {
-      console.log(err);
-      setUser({ errors: err[0].message });
-      // console.log("checkpoint 1");
-    }
-
-    // navigate("/");
 
   }
 
@@ -66,26 +62,23 @@ function JoblyApp() {
   */
   async function registerUser(registerInfo) {
     const { username, password, firstName, lastName, email } = registerInfo;
-    try {
 
       const token = await JoblyApi.register(
-        username, password,
-        firstName, lastName, email
+        username,
+        password,
+        firstName,
+        lastName,
+        email
       );
       JoblyApi.token = token;
       setToken(token);
-
-    } catch (err) {
-      setUser({ errors: err[0].message });
-    }
-
 
   }
 
   return (
     <div>
       <BrowserRouter>
-        <userContext.Provider value={{ username: user.username, errors: user.errors }}>
+        <userContext.Provider value={{ username: user?.username }}>
           <NavBar user={user} logOutUser={logOutUser} />
           <RouteList loginUser={loginUser} registerUser={registerUser} />
         </userContext.Provider>

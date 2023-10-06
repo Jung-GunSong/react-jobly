@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ErrorMessage from "./ErrorMessage";
 
 const initialSignUpData = {
   username: "", password: "",
@@ -7,7 +8,7 @@ const initialSignUpData = {
   email: ""
 };
 /**
- * SignUp: Renders form for user to input usernam/password
+ * SignUp: Renders form for user to input username/password
  *
  * State:
  * - signUpData: {username:..., ...}
@@ -18,6 +19,7 @@ const initialSignUpData = {
  */
 function SignUp({ registerUser }) {
   const [signUpData, setSignUpData] = useState(initialSignUpData);
+  const [errors, setErrors] = useState(null);
   const navigate = useNavigate();
 
   /** Updates signUpData state when user types in form */
@@ -28,12 +30,22 @@ function SignUp({ registerUser }) {
 
   /** Sends user registration information to JoblyApp on submit, resets form,
    * redirects user to home page
+   * if error, updates signUpData state to include errors and
+   * renders errorMessage component
    */
-  function handleSubmit(evt) {
+  async function handleSubmit(evt) {
     evt.preventDefault();
-    registerUser(signUpData);
-    setSignUpData(initialSignUpData);
-    navigate("/");
+
+    try{
+
+      await registerUser(signUpData);
+      setSignUpData(initialSignUpData);
+      navigate("/");
+
+    }catch(err){
+      setErrors(err[0].message);
+    }
+
   }
 
   return (
@@ -72,6 +84,7 @@ function SignUp({ registerUser }) {
         />
         <button>Submit</button>
       </form>
+      {errors && <ErrorMessage errorMessages={errors} />}
     </div>
   );
 }

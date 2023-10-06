@@ -5,6 +5,12 @@ import "./NavBar.css";
 /**
  * NavBar: renders links to routes for each page
  *
+ * State: none
+ *
+ * Props:
+ * user: user state that contains user data
+ * logOutUser: function used to log out the user
+ *
  */
 function NavBar({ user, logOutUser }) {
 
@@ -16,7 +22,7 @@ function NavBar({ user, logOutUser }) {
   return (
     <div className="NavBar">
       <NavLink to="/" >Jobly</NavLink>
-      {!user.username ?
+      {!user?.username ?
         <>
           <NavLink to="/login"  >Login</NavLink>
           <NavLink to="/signup"  >SignUp</NavLink>

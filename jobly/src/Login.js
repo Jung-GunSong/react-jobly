@@ -1,8 +1,8 @@
 
-import { useState, React, useContext, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState, React } from "react";
+import {  useNavigate } from "react-router-dom";
 import ErrorMessage from "./ErrorMessage";
-import userContext from "./userContext";
+
 
 const initialLoginFormData = { username: "", password: "" };
 
@@ -17,7 +17,7 @@ const initialLoginFormData = { username: "", password: "" };
  */
 function Login({ loginUser }) {
   const [loginData, setLoginData] = useState(initialLoginFormData);
-  const { errors } = useContext(userContext);
+  const [errors, setErrors] = useState(null)
 
   const navigate = useNavigate();
 
@@ -28,17 +28,22 @@ function Login({ loginUser }) {
     setLoginData(l => ({ ...l, [name]: value }));
   }
 
-  /** Sends user login info to JoblyApp, resets form, redirects to home page */
+  /** Sends user login info to JoblyApp, resets form, redirects to home page
+   * if error, updates loginData state and shows errorMessage component
+   */
   async function handleSubmit(evt) {
     evt.preventDefault();
-    // TODO: put try catch here
-    loginUser(loginData);
-    setLoginData(initialLoginFormData);
-    console.log("errors on handleSubmit for login", errors);
-    // if (!errors) {
-    //   navigate("/");
-    // }
-    // console.log("checkpoint 2");
+
+    try{
+      await loginUser(loginData);
+      setLoginData(initialLoginFormData);
+      navigate("/")
+    }catch(err){
+      setErrors(err[0].message)
+      // TODO: errors can be its own state
+    }
+
+
   }
 
   // issue: cannot create user.errors, before navigate needs to happen

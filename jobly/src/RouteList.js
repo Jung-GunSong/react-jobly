@@ -9,6 +9,11 @@ import UserProfile from "./UserProfile";
 /**
  * Manages routes to each associated component/page
  *
+ * State: none
+ *
+ * Props:
+ * registerUser: function to register user with form data
+ * loginUser: function to login user with valid username and password
  */
 function RouteList({ registerUser, loginUser }) {
 
