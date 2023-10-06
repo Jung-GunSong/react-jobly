@@ -1,6 +1,6 @@
 
 import { useState, React } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorMessage from "./ErrorMessage";
 
 
@@ -17,7 +17,7 @@ const initialLoginFormData = { username: "", password: "" };
  */
 function Login({ loginUser }) {
   const [loginData, setLoginData] = useState(initialLoginFormData);
-  const [errors, setErrors] = useState(null)
+  const [errors, setErrors] = useState(null);
 
   const navigate = useNavigate();
 
@@ -34,22 +34,14 @@ function Login({ loginUser }) {
   async function handleSubmit(evt) {
     evt.preventDefault();
 
-    try{
+    try {
       await loginUser(loginData);
       setLoginData(initialLoginFormData);
-      navigate("/")
-    }catch(err){
-      setErrors(err[0].message)
-      // TODO: errors can be its own state
+      navigate("/");
+    } catch (err) {
+      setErrors(err[0].message);
     }
-
-
   }
-
-  // issue: cannot create user.errors, before navigate needs to happen
-  // login happens, then error collected in JoblyApp
-  // in JoblyApp, if errors, collected, then redirect to login page
-  // else, redirect to login
 
   return (
     <div className="Login-container">

@@ -7,38 +7,43 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import UserProfile from "./UserProfile";
 /**
- * Manages routes to each associated component/page
+ * Manages routes to each associated component/page, determines whether route
+ * can be accessed by checking if user is has been assigned
  *
  * State: none
  *
  * Props:
  * registerUser: function to register user with form data
  * loginUser: function to login user with valid username and password
- * isLoggedIn: boolean value to determine if user is loggedn in or not
+ * user: holds user data or null value for username key
  */
-function RouteList({ registerUser, loginUser, isLoggedIn }) {
-
-
+function RouteList({ registerUser, loginUser, user }) {
 
   return (
     <div>
       <Routes>
+        {!user &&
+          <>
+            <Route path="/login"
+              element={<Login loginUser={loginUser} />} />
+            <Route path="/signup"
+              element={<SignUp registerUser={registerUser} />} />
+          </>}
+
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login loginUser={loginUser} />} />
-        <Route path="/signup" element={<SignUp registerUser={registerUser} />} />
-        {isLoggedIn && <><Route path="/profile" element={<UserProfile />} />
-        <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/companies" element={<CompaniesPage />} />
-        <Route path="/companies/:handle" element={<CompanyJobPage />} /> </>}
+
+        {user &&
+          <>
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/jobs" element={<JobsPage />} />
+            <Route path="/companies" element={<CompaniesPage />} />
+            <Route path="/companies/:handle" element={<CompanyJobPage />} />
+          </>}
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );
 }
-
-// if user is falsy w/&& unlocks log in and sign
-// home route has no conditions
-// if user is truthy w/&& jobs, companies, companies/handle
-//
 
 export default RouteList;
